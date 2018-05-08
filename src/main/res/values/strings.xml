@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="signin_google_message">sign in using google provider </string>
+    <string name="signin_facebook_message">sign in using facebook provider
+    </string>
+    <string name="signout_facebook_message">sign out using facebook
+        provider</string>
+    <string name="signout_google_message">sign out using google provider</string>
+    <string name="google_signin_options">gso</string>
+    <string name="default_web_client_id">0x7f0e0050</string>
+    <string name="activity_action_type">activity_action_type</string>
+
+    <string name="sign_in_exception_message">sign in method not supported for
+        this provider</string>
+    <string name="send_email_not_implemented_provider_exception">send
+        verfication method not supported for this provider</string>
+    <string name="provider_manager_provider_exception">AutProviderManager
+        .provider=null Did you forget to set current provider by
+        invoking setProvider(IAuthProvider provider) before calling
+        this method ?</string>
+    <string name="email_provider_signin_exception">this overload for
+        signin is forbidden for email provider. User and passward are
+        needed in order to sign in using this provider</string>
+    <string name="sign_in_null_provider_exception">null provider cannot
+    sign in</string>
+    <string name="on_activity_result_received">null provider cannot
+    implement OnActivityResultReceived</string>
+    <string name="send_email_null_provider_exception">null provider cannot
+    send verfication email</string>
+    <string name="email_account_exists_before_created">account can not be
+        exists before it is created</string>
+    <string name="email_account_already_exists">cannot create existing account</string>
+    <string name="email_account_can_not_be_verified_before_reply">users
+    must reply verfication mail in order to be verified</string>
+    <string name="email_account_reply_to_verfication_mail_message">please
+        reply to verfication mail in order to register with this email account
+    </string>
+
+
+
+
+</resources>
