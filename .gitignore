@@ -1,3 +1,10 @@
 /build/
 /generated/
 *.iml
+/.idea/
+/gradlew
+/local.properties
+/gradlew.bat
+.gradle/
+.idea/
+gradle/
