@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.firebase.authwrapper.providers.common.enums.ProviderType;
+import com.firebase.authwrapper.providers.types.NullProvider;
 import com.game.authprovider.R;
 import com.firebase.authwrapper.providers.delegate.Provider;
 import com.firebase.authwrapper.providers.common.properties.ProviderProperties;
@@ -13,10 +14,12 @@ import com.firebase.authwrapper.providers.types.IProvider;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.firebase.authwrapper.providers.common.factory.ProviderFactory.NULL_PROVIDER;
+
 /**
  * this class is a singleton used for wrapping the curr_provider delegate
  * data in case users sent this application to background. It allows
- * the user to chose a current curr_provider from a list of avaliable providers.
+ * the user to chose a current curr_provider from a list of available providers.
  *
  * @author ron barnoy
  * @version 1.0
@@ -25,10 +28,10 @@ import java.util.List;
  */
 public class ProviderManager implements IProviderManager {
 
-    private static ProviderManager authManager = new ProviderManager();
+    private static ProviderManager providerManager = new ProviderManager();
     private final static String TAG = ProviderManager.class.getSimpleName();
 
-    private IProvider curr_provider = null;
+    private IProvider curr_provider = NULL_PROVIDER;
     private ProviderProperties providerPropertiesConfig;
     private List<IProvider> providerList = new
             ArrayList<IProvider>();
@@ -45,7 +48,7 @@ public class ProviderManager implements IProviderManager {
      * @return the private static instance of this class
      */
     public static ProviderManager getInstace(){
-        return authManager;
+        return providerManager;
     }
 
     /**
@@ -74,6 +77,11 @@ public class ProviderManager implements IProviderManager {
                     (currentAuthProviderConfigurations);
             provider.SignOut();
             providerList.add(provider);
+
+        }
+
+        if (!providerList.isEmpty()){
+           this.curr_provider =  providerList.get(0);
         }
     }
 
