@@ -8,19 +8,38 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 
+import com.firebase.authwrapper.providers.common.base.ProviderBase;
 import com.firebase.authwrapper.resultactivity.callback.ActivityResultCallback;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
- * Created by ron on 12/16/2017.
+ * <p>
+ * The base class of google/facebook result activity. This base class contain
+ * all mutual methods and properties related to the derived object, including
+ * the binding of a result activity to the target {@link ProviderBase ProviderBase}
+ * </p>
+ * <p>
+ * In addition, this base class manage the progress bar which is presented while
+ * the authentication provider (facebook/google) tries to reteived data from
+ * remote servers.
+ * </p>
+ *
+ * @author ron barnoy
+ * @version 1.0
+ * @since 10-5-2018
+ * @see BaseResultActivity
+ * @see ProviderBase
  */
-
 public class BaseResultActivity extends AppCompatActivity
-        implements IResultActivity, GoogleApiClient.OnConnectionFailedListener
+        implements IResultActivity
 {
     @VisibleForTesting
+    /**
+     * progress bar which is presented while a target provider tries to
+     * retrieve remote data
+     */
     public ProgressDialog mProgressDialog;
 
 
@@ -69,6 +88,13 @@ public class BaseResultActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Register this result activity with an
+     * {@link ActivityInvoker ActivityInvoker}. This allows the result activity
+     * to be connected with the target {@link ProviderBase provider}
+     * @param activityResultCallback the target callback of a
+     * {@link ActivityInvoker ActivityInvoker}
+     */
     @Override
     public void Register(ActivityResultCallback activityResultCallback) {
         this.authActivityResultCallback = activityResultCallback;
@@ -80,12 +106,5 @@ public class BaseResultActivity extends AppCompatActivity
         setVisible(true);
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                String errMessage = String.format("error " +
-                        "code:{0}\nMessage{1}", connectionResult
-                        .getErrorCode
-                        (), connectionResult.getErrorMessage());
-        activityInvoker.raiseOnBroadcastFailed(new Exception(errMessage));
-    }
+
 }

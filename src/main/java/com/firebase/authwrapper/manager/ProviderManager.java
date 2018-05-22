@@ -3,8 +3,8 @@ package com.firebase.authwrapper.manager;
 import android.content.Context;
 import android.util.Log;
 
+import com.firebase.authwrapper.providers.common.enums.ProviderType;
 import com.game.authprovider.R;
-import com.firebase.authwrapper.providers.common.enums.ProviderEnum;
 import com.firebase.authwrapper.providers.delegate.Provider;
 import com.firebase.authwrapper.providers.common.properties.ProviderProperties;
 import com.firebase.authwrapper.providers.common.base.ProviderBase;
@@ -15,7 +15,13 @@ import java.util.List;
 
 /**
  * this class is a singleton used for wrapping the provider delegate
- * data in case users sent this application to background.
+ * data in case users sent this application to background. It allows
+ * the user to chose a current provider from a list of avaliable providers.
+ *
+ * @author ron barnoy
+ * @version 1.0
+ * @since 10-5-2018
+ * @see IProviderManager
  */
 public class ProviderManager implements IProviderManager {
 
@@ -42,13 +48,17 @@ public class ProviderManager implements IProviderManager {
         return authManager;
     }
 
+    /**
+     * Configure all available providers using
+     * {@link ProviderProperties providerProperties}
+     * @param providerProperties
+     */
     public void Configure (ProviderProperties providerProperties){
         providerPropertiesConfig = providerProperties;
 
-        for (ProviderEnum.ProviderType providerType : ProviderEnum
-                .ProviderType.values()) {
+        for (ProviderType providerType : ProviderType.values()) {
 
-            if (providerType == ProviderEnum.ProviderType.UNDEFINED)
+            if (providerType == ProviderType.UNDEFINED)
                    // || providerType == ProviderEnum.ProviderType.MAIL)
                 continue;
 
@@ -66,13 +76,14 @@ public class ProviderManager implements IProviderManager {
         }
     }
 
+    /**
+     * Sign out current provider
+     */
     public void SignOut()
     {
-        for (IProvider provider : providerList) {
-            provider.SignOut();
-        }
+        this.provider.SignOut();
     }
-    public IProvider getProvider(ProviderEnum.ProviderType providerType)
+    public IProvider getProvider(ProviderType providerType)
     {
         for (IProvider provider : providerList) {
 
@@ -91,7 +102,7 @@ public class ProviderManager implements IProviderManager {
      * @return an {@link IProvider IProvider} which
      * attached to specific {@link ProviderBase
      * Provider } derived object based on
-     * {@link ProviderEnum.ProviderType ProviderType} property
+     * {@link ProviderType ProviderType} property
      */
     @Override
     public IProvider getProvider() {
@@ -106,18 +117,31 @@ public class ProviderManager implements IProviderManager {
         return this.provider;
     }
 
+    /**
+     * sets the current provider
+     * @param provider a provider object referance
+     */
     @Override
     public void setProvider(IProvider provider){
         this.provider = provider;
     }
 
+    /**
+     * sets the current provider
+     * @param providerProperties allocates new provider according to properties
+     */
     @Override
     public void setProvider(ProviderProperties providerProperties){
         this.provider = new Provider(providerProperties);
     }
 
+    /**
+     * sets current provider by supplying a {@link ProviderType providerType}
+     * @param providerType allocates new provider according to
+     *                     {@link ProviderType providerType enum value}
+     */
     @Override
-    public void setProvider(ProviderEnum.ProviderType providerType){
+    public void setProvider(ProviderType providerType){
 
         ProviderProperties currentAuthProviderConfigurations = new
                 ProviderProperties.AuthProviderPropertiesBuilder()

@@ -3,29 +3,44 @@ package com.firebase.authwrapper.providers.common.base;
 import android.content.Context;
 import android.content.Intent;
 
+import com.firebase.authwrapper.manager.ProviderManager;
+import com.firebase.authwrapper.providers.common.enums.ProviderType;
+import com.firebase.authwrapper.providers.delegate.Provider;
 import com.game.authprovider.R;
-import com.firebase.authwrapper.providers.common.enums.ProviderEnum;
 import com.firebase.authwrapper.providers.common.properties.ProviderProperties;
 import com.firebase.authwrapper.utils.sharedprefrences.SharedPreferencesManager;
 import com.firebase.authwrapper.providers.common.callbacks.AuthenticationListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
+import com.firebase.authwrapper.providers.types.*;
 import java.util.ArrayList;
 
 /**
- * base class of auth provider types
+ * <p>
+ * This Class is the providers base class. Contains all mutual methods
+ * (behaviors) for all concrete providers, including a base ctor. Apart of
+ * implementing concrete methods, the ProviderBase declares several abstract
+ * behaviors which needed implementation in derived providers.
+ * </p>
+ *
+ *<p>
+ * As an abstract class (not pure interface), this class implements some of
+ * the functionality exposed to the {@link Provider provider delegate}. This
+ * {@link Provider provider delegate}, invoked by the singleton {@link
+ * ProviderManager ProviderManager} which exposed to the user.
+ *</p>
+ *
+ * @author ron barnoy
+ * @version 1.0
+ * @since 10-5-2018
+ * @see Provider
  */
 public abstract class ProviderBase {
 
 
-    //=======
-    // fields
-    //=======
-
     protected FirebaseAuth mAuth;
-    protected ProviderEnum.ProviderType currentProviderType;
+    protected ProviderType currentProviderType;
     protected AuthCredential credential;
     protected FirebaseUser user;
     protected ArrayList<AuthenticationListener> authCallbacklist = new ArrayList<>();
@@ -33,12 +48,12 @@ public abstract class ProviderBase {
     protected ProviderProperties providerProperties = null;
 
     private static final String MY_PREFS_NAME = "AuthSharedPrefs";
-    //=================
-    // Concrete methods
-    //=================
 
     /**
-     * initialize firebase singleton
+     * Abstract constructor for concrete provider object
+     * @param providerProperties the provider properties needed for
+     *                           initialization
+     * @see ProviderProperties
      */
     public ProviderBase(ProviderProperties providerProperties){
 
@@ -67,29 +82,65 @@ public abstract class ProviderBase {
     }
 
     /**
-     * register a {@link AuthenticationListener listener} to the provider
+     * Register a {@link AuthenticationListener listener} to the provider
      * class. The listener holds several callbacks which will be
      * reflected on the sender class.
      * @param authenticationListener listener for communicating the sender
-     *                     to the providers flow.
+     *                     to the providers flow
+     * @see AuthenticationListener
      */
     public void Register(AuthenticationListener authenticationListener) {
         authCallbacklist.add(authenticationListener);
     }
 
+    /**
+     * UnRegister {@link AuthenticationListener listener} from the provider.
+     * The listener holds several callbacks which will be
+     * reflected on the sender class.
+     * @param authenticationListener listener for communicating the sender
+     *                     to the providers flow.
+     * @see AuthenticationListener
+     */
     public void UnRegister(AuthenticationListener authenticationListener) {
         // remove from list
         authCallbacklist.remove(authenticationListener);
     }
 
     /**
-     * handles signout from firebase service
+     * This method signout the target provider from Firebase authentication
+     * server.
      */
     public void SignOut(){
         mAuth.signOut();
     }
 
 
+    /**
+     * <p>
+     * SignIn method using mail and password. Implemented only in {@link
+     * MailProvider MailProvider}. The other concrete providers (except
+     * {@link NullProvider NullProvider} throw this exception.
+     *</p>
+     *
+     * <p>
+     * The reason that this method is found in {@link ProviderBase ProviderBase}
+     * (and not exclusively found in {@link MailProvider MailProvider}) is that
+     * this method must be exposed to the end user. This can only be done if it
+     * will be exposed to {@link Provider Provider delegate} object.
+     * </p>
+     *
+     * @param email an email address string
+     * @param Password an email password string
+     * @param callback {@link AuthenticationListener.Email Email} callback
+     *                                                           implemented
+     *                                                           by the user
+     *                                                           application
+     *
+     * @throws IllegalArgumentException this exception is triggered only if
+     * other concrete provider (either of {@link MailProvider MailProvider}
+     * called this method.
+     * @see MailProvider
+     */
     public void SignIn(String email, String Password,
                        AuthenticationListener.Email callback)
             throws  IllegalArgumentException {
@@ -99,6 +150,26 @@ public abstract class ProviderBase {
     }
 
 
+    /**
+     * <p>
+     * This method is used for sending verification mail to the
+     * {@link FirebaseUser current user}, after this user was successfully
+     * registered by using {@link MailProvider MailProvider}
+     * </p>
+     *
+     * <p>
+     * The reason that this method is found in {@link ProviderBase ProviderBase}
+     * (and not exclusively found in {@link MailProvider MailProvider}) is that
+     * this method must be exposed to the end user. This can only be done if it
+     * will be exposed to {@link Provider Provider delegate} object.
+     * </p>
+     * @param user the target user which will receive this verfication mail
+     * @throws IllegalArgumentException this exception is triggered only if
+     * other concrete provider (either of {@link MailProvider MailProvider}
+     * called this method.
+     * @see MailProvider
+     *
+     */
     public void SendEmailVerification(FirebaseUser user)
             throws IllegalArgumentException {
         String message =  context.getString(R.string
@@ -107,28 +178,29 @@ public abstract class ProviderBase {
         throw new IllegalArgumentException(message);
     }
 
-    //===========
-    // properties
-    //===========
-
+    /**
+     * Method for getting the target application context
+     * @return application context
+     * @see Context
+     */
     public Context getContext(){
         return this.context;
     }
 
     /**
-     * gets {@link ProviderEnum.ProviderType ProviderType} property
+     * gets {@link ProviderType ProviderType} property
      * according to current used provider
      * @return current provider type used by the current user
      */
-    public ProviderEnum.ProviderType getProviderType() {
+    public ProviderType getProviderType() {
         return this.currentProviderType;
     }
 
     /**
-     * sets {@link ProviderEnum.ProviderType ProviderType} property
+     * sets {@link ProviderType ProviderType} property
      * according to current used provider
      */
-    public void setProvederType(ProviderEnum.ProviderType providerType) {
+    public void setProvederType(ProviderType providerType) {
         this.currentProviderType = providerType;
     }
 
@@ -141,11 +213,6 @@ public abstract class ProviderBase {
     }
 
     /**
-     * {@link AuthCredential AuthCredential} setter
-     * @return
-     */
-
-    /**
      * sets {@link AuthCredential credential} property
      * according to current used provider
      */
@@ -155,20 +222,29 @@ public abstract class ProviderBase {
 
     /**
      * gets current {@link FirebaseUser FirebaseUser}
-     * @return
+     * @return current {@link FirebaseUser FirebaseUser}
      */
     public FirebaseUser getUser() {
         return this.user;
     }
 
-    //=========================================================
-    // abstract methods (private interface between all provider
-    // derived classes
-    //=========================================================
 
-    public abstract void SignIn() throws InterruptedException;
     /**
-     * signaling the derived provider that data has arrived from
+     * method all relevant providers are requested to override
+     * except {@link NullProvider NullProvider} and
+     * {@link MailProvider MailProvider}
+     * @throws InterruptedException the exception which will be caught by the
+     * {@link ErrorHandlingManager ErrorHandlingManager} on concrete providers
+     */
+    public void SignIn() throws InterruptedException {
+
+        throw new IllegalArgumentException
+                (context.getString(R.string.sign_in_exception_message));
+    }
+
+
+    /**
+     * Notifying the derived provider that data has arrived from
      * private auth activity containing relevant authentication data
      * @param requestCode activity result requestCode
      * @param resultCode activity result resultCode
@@ -185,19 +261,21 @@ public abstract class ProviderBase {
         }
     }
 
+    /**
+     * Handle Errors that were caught during authentication process
+     * @param ex the exception that was caught
+     */
     protected void HandleAuthProviderError(Exception ex)
     {
         ErrorHandlingManager.getInstace()
                 .handle(this, ex);
     }
 
-    public void BroadcastOnFailed(Exception ex) {
-        this.user = null;
-        for (AuthenticationListener authenticationListener : authCallbacklist) {
-            authenticationListener.OnAuthenticationFailed(ex);
-        }
-    }
-
+    /**
+     * retrieve provider's {@link ProviderProperties ProviderProperties}
+     * @return target provider ProviderProperties
+     * @see ProviderProperties
+     */
     public ProviderProperties getProviderProperties() {
         return providerProperties;
     }

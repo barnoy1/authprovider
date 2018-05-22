@@ -1,16 +1,19 @@
 package com.firebase.authwrapper.resultactivity.callback;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-
 import com.firebase.authwrapper.providers.common.base.ProviderBase;
-import com.google.android.gms.common.ConnectionResult;
-
+import com.firebase.authwrapper.providers.delegate.Provider;
+import com.firebase.authwrapper.resultactivity.common.ActivityInvoker;
 /**
  * Interface for exposing activity result data from
- * {@link AuthProviderActivity AuthProviderActivity}
+ * {@link ActivityInvoker ActivityInvoker}
  * to {@link ProviderBase
- *  ProviderBase}
+ * ProviderBase}
+ *
+ * @author ron barnoy
+ * @version 1.0
+ * @since 10-5-2018
+ * @see ActivityInvoker
  */
 public interface ActivityResultCallback {
     /**
@@ -24,7 +27,5 @@ public interface ActivityResultCallback {
      *                    to provider class.
      */
     void OnActivityResult(int requestCode, int resultCode, Intent data);
-
-    void OnConnectionFailed(@NonNull ConnectionResult connectionResult);
 
 }

@@ -10,8 +10,10 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.firebase.authwrapper.providers.delegate.Provider;
+import com.firebase.authwrapper.resultactivity.callback.ActivityResultCallback;
 import com.game.authprovider.R;
-import com.firebase.authwrapper.resultactivity.types.facebook.FacebookActivityInoker;
+import com.firebase.authwrapper.resultactivity.types.facebook.FacebookActivityInvoker;
 import com.firebase.authwrapper.providers.common.properties.ProviderProperties;
 import com.firebase.authwrapper.providers.common.base.ProviderBase;
 import com.firebase.authwrapper.resultactivity.enums.ResultActivityEnum;
@@ -26,6 +28,17 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Facebook Provider concrete class. This class implements
+ * {@link IProvider IProvider} interface and
+ * {@link ProviderBase ProviderBase} abstract methods based on
+ * facebook/firebase provider functions
+ *
+ * @author ron barnoy
+ * @version 1.0
+ * @since 10-5-2018
+ * @see Provider
+ */
 public class FacebookProvider extends ProviderBase implements IProvider,
         FacebookCallback<LoginResult>{
 
@@ -36,8 +49,15 @@ public class FacebookProvider extends ProviderBase implements IProvider,
     private LoginManager loginManager = LoginManager.getInstance();
     private List<String> permissionsList = new ArrayList<>();
 
-    protected FacebookActivityInoker FacebookActivityInoker;
+    protected FacebookActivityInvoker FacebookActivityInoker;
 
+    /**
+     * ctor. Concrete constructor of facebook provider
+     * @param providerProperties target providerProperties needed for
+     *                           initialization of this provider
+     *
+     * @see LoginManager
+     */
     public FacebookProvider(ProviderProperties providerProperties) {
         super(providerProperties);
 
@@ -53,6 +73,12 @@ public class FacebookProvider extends ProviderBase implements IProvider,
 
     }
 
+    /**
+     * Implementation of facebook sign in provider using firebasework
+     * This implementation based on abstract method found in
+     * {@link ProviderBase#SignIn()}
+     * @throws InterruptedException
+     */
     @Override
     public void SignIn() {
 
@@ -72,6 +98,12 @@ public class FacebookProvider extends ProviderBase implements IProvider,
 
     }
 
+    /**
+     * Implementation of google sign out provider using firebasework
+     * This implementation based on abstract method found in
+     * {@link ProviderBase#SignOut()}
+     * @throws InterruptedException
+     */
     @Override
     public void SignOut() {
         super.SignOut();
@@ -79,6 +111,15 @@ public class FacebookProvider extends ProviderBase implements IProvider,
         BroadcastOnComplete(null);
     }
 
+    /**
+     * Implementation of handling the activity result which retrieved from the
+     * the inner result activity. Used for process user login data retrieved
+     * form the provider service before passing it to to target application.
+     * This method is an abstract method
+     * implementation of {@link ProviderBase#OnActivityResultReceived(int, int, Intent)}
+     *
+     * @see ActivityResultCallback
+     */
     @Override
     public void OnActivityResultReceived(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -110,17 +151,39 @@ public class FacebookProvider extends ProviderBase implements IProvider,
 
     }
 
+    /**
+     * Implementation of {@link FacebookCallback<LoginResult>
+     *     FacebookCallback<LoginResult>}
+     * @param loginResult this is the outcome of
+     * {@link FacebookProvider#SignIn() FacebookProvider.SignIn()}
+     *                    method.
+     */
     @Override
     public void onSuccess(LoginResult loginResult) {
         AccessToken token = loginResult.getAccessToken();
         handleFacebookAccessToken(token);
     }
 
+    /**
+     * Implementation of {@link FacebookCallback<LoginResult>
+     * FacebookCallback<LoginResult>}. This callback triggers
+     * when the user cancels
+     * {@link FacebookProvider#SignIn() FacebookProvider.SignIn()}
+     * method.
+     */
     @Override
     public void onCancel() {
         FacebookResultActivity.fa.finish();
     }
 
+    /**
+     * Implementation of {@link FacebookCallback<LoginResult>
+     *     FacebookCallback<LoginResult>}
+     * @param error this is the caught {@link FacebookException
+     * FacebookException} which roused during
+     * {@link FacebookProvider#SignIn() FacebookProvider.SignIn()}
+     *                    method.
+     */
     @Override
     public void onError(FacebookException error) {
         FacebookResultActivity.fa.finish();

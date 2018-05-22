@@ -3,14 +3,18 @@ package com.firebase.authwrapper.providers.common.callbacks;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
- * listener class which contains different callback
- * of providers flow.
+ * This listener notifies the target application
+ * the result of the authentication process
+ *
+ * @author ron barnoy
+ * @version 1.0
+ * @since 10-5-2018
  */
 public interface AuthenticationListener {
     /**
-     * callback function which triggered when a provider was
-     * successfull authenticate user. The callback returns to
-     * the sender the details of the autheticated user for
+     * Callback method which triggered when a provider was
+     * successful authenticate user. The callback returns to
+     * the sender the details of the authenticated user for
      * updating UI
      *
      * @param user the authenticated user
@@ -23,10 +27,30 @@ public interface AuthenticationListener {
      */
     void OnAuthenticationFailed(Exception ex);
 
+    /**
+     * This listener contains additional status methods of
+     * the authentication process which relevant for
+     * {@link com.firebase.authwrapper.providers.types.MailProvider
+     * MailProvider}
+     */
     interface Email {
 
+        /**
+         * create new {@link FirebaseUser FirebaseUser} by using
+         * {@link com.firebase.authwrapper.providers.types.MailProvider
+         * MailProvider} provider
+         * @param user current FirebaseUser user instance
+         * @see FirebaseUser
+         */
         void OnNewUserCreated(FirebaseUser user);
 
+        /**
+         * this method is inovked when the
+         * {@link com.firebase.authwrapper.providers.types.MailProvider
+         * MailProvider} successfully been able to send a verfication mail
+         * to the target {@link FirebaseUser user}
+         * @see FirebaseUser
+         */
         void OnVerficationMailSent();
 
     }

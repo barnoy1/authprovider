@@ -3,6 +3,8 @@ package com.firebase.authwrapper.providers.types;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import com.firebase.authwrapper.providers.delegate.Provider;
+import com.firebase.authwrapper.resultactivity.callback.ActivityResultCallback;
 import com.game.authprovider.R;
 import com.firebase.authwrapper.providers.common.properties.ProviderProperties;
 import com.firebase.authwrapper.resultactivity.types.google.GoogleActivityInvoker;
@@ -21,6 +23,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 
+/**
+ * Facebook Provider concrete class. This class implements
+ * {@link IProvider IProvider} interface and
+ * {@link ProviderBase ProviderBase} abstract methods based on
+ * google/firebase provider functions
+ *
+ * @author ron barnoy
+ * @version 1.0
+ * @since 10-5-2018
+ * @see Provider
+ */
 public class GoogleProvider extends ProviderBase implements
         IProvider {
 
@@ -30,6 +43,11 @@ public class GoogleProvider extends ProviderBase implements
 
     protected GoogleActivityInvoker googleActivityInvoker;
 
+    /**
+     * ctor. Concrete constructor of google provider
+     * @param providerProperties target providerProperties needed for
+     *                           initialization of this provider
+     */
     public GoogleProvider(ProviderProperties providerProperties){
         super(providerProperties);
 
@@ -45,6 +63,12 @@ public class GoogleProvider extends ProviderBase implements
 
     }
 
+    /**
+     * Implementation of google sign in provider using firebasework
+     * This implementation based on abstract method found in
+     * {@link ProviderBase#SignIn()}
+     * @throws InterruptedException
+     */
     @Override
     public void SignIn() throws InterruptedException {
 
@@ -62,6 +86,15 @@ public class GoogleProvider extends ProviderBase implements
 
     }
 
+    /**
+     * Implementation of handling the activity result which retrieved from the
+     * the inner result activity. Used for process user login data retrieved
+     * form the provider service before passing it to to target application.
+     * This method is an abstract method
+     * implementation of {@link ProviderBase#OnActivityResultReceived(int, int, Intent)}
+     *
+     * @see ActivityResultCallback
+     */
     @Override
     public void OnActivityResultReceived(int requestCode, int resultCode, Intent data) {
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
@@ -103,6 +136,12 @@ public class GoogleProvider extends ProviderBase implements
                         });
     }
 
+    /**
+     * Implementation of google sign out provider using firebasework
+     * This implementation based on abstract method found in
+     * {@link ProviderBase#SignOut()}
+     * @throws InterruptedException
+     */
     @Override
     public void SignOut(){
         super.SignOut();

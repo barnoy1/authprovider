@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.firebase.authwrapper.providers.delegate.Provider;
+import com.firebase.authwrapper.resultactivity.callback.ActivityResultCallback;
 import com.game.authprovider.R;
 import com.firebase.authwrapper.providers.common.properties.ProviderProperties;
 import com.firebase.authwrapper.providers.common.base.ProviderBase;
@@ -14,19 +16,38 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 
-/**
- * Created by ron on 11/11/2017.
- */
 
+/**
+ * Facebook Provider concrete class. This class implements
+ * {@link IProvider IProvider} interface and
+ * {@link ProviderBase ProviderBase} abstract methods based on
+ * email/firebase provider functions
+ *
+ * @author ron barnoy
+ * @version 1.0
+ * @since 10-5-2018
+ * @see Provider
+ */
 public class MailProvider extends ProviderBase implements IProvider {
 
     private final String TAG = MailProvider.class.getSimpleName();
     private AuthenticationListener.Email emailCallback;
 
+    /**
+     * ctor. Concrete constructor of mail provider
+     * @param providerProperties target providerProperties needed for
+     *                           initialization of this provider
+     */
     public MailProvider(ProviderProperties providerProperties) {
         super(providerProperties);
     }
 
+    /**
+     * @param firebaseuser target user for mail verification required
+     *             for {@link MailProvider}
+     * @throws IllegalArgumentException
+     * @see ProviderBase#SendEmailVerification(FirebaseUser)
+     */
     @Override
     public void SendEmailVerification(FirebaseUser firebaseuser) {
 
@@ -51,16 +72,17 @@ public class MailProvider extends ProviderBase implements IProvider {
 
     }
 
+
     /**
-     * signing user by using a derived provider
+     * Implementation of email sign in provider using firebasework
+     * This implementation based on abstract method found in
+     * {@link ProviderBase#SignIn(String, String, AuthenticationListener.Email)}
+     * @param email the firebase user email address
+     * @param password the firebase user password
+     * @param emailCallback the registered callback. This callback will be
+     *                      notified of the signin procedure
+     * @throws InterruptedException
      */
-    @Override
-    public void SignIn() throws InterruptedException {
-
-        throw new IllegalArgumentException
-                (context.getString(R.string.email_provider_signin_exception));
-    }
-
     @Override
     public void SignIn(String email, String password, AuthenticationListener
             .Email emailCallback) throws IllegalArgumentException {
@@ -88,7 +110,11 @@ public class MailProvider extends ProviderBase implements IProvider {
                         });
     }
 
-
+    /**
+     * Implementation of handling the activity result which retrieved from the
+     * the inner result activity. Not relevant for this provider
+     * @see ActivityResultCallback
+     */
     @Override
     public void OnActivityResultReceived(int requestCode, int resultCode, Intent data) {
 
