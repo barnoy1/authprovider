@@ -15,10 +15,10 @@ top of <a href="https://firebase.google.com" target="_blank">Firebase</a>.</h4>
 
 ## Table of content
 
-1. [Installation](#installation)
+1. [prerequisite](#prerequisite)
     1. [TER](#typo3-extension-repository)
     2. [Composer](#composer)
-2. [TYPO3 setup](#typo3-setup)
+2. [Installation](#Installation)
     1. [Extension](#extension)
     2. [Database](#database)
 3. [Page setup](#page-setup)
@@ -28,19 +28,24 @@ top of <a href="https://firebase.google.com" target="_blank">Firebase</a>.</h4>
 4. [License](#license)
 5. [Links](#links)
 
-## Installation
+## prerequisite
 
 This document is for the latest Aimeos TYPO3 **17.10 release and later**.
 
 - Stable release: 18.4 (TYPO3 7/8 LTS)
 
+## Installation
+
+This document is for the latest Aimeos TYPO3 **17.10 release and later**.
+
+- Stable release: 18.4 (TYPO3 7/8 LTS)
 ## Contributing
 
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/barnoy1/authprovider/releases). 
 
 ## Authors
 
