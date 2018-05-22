@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * this class is a singleton used for wrapping the provider delegate
+ * this class is a singleton used for wrapping the curr_provider delegate
  * data in case users sent this application to background. It allows
- * the user to chose a current provider from a list of avaliable providers.
+ * the user to chose a current curr_provider from a list of avaliable providers.
  *
  * @author ron barnoy
  * @version 1.0
@@ -28,7 +28,7 @@ public class ProviderManager implements IProviderManager {
     private static ProviderManager authManager = new ProviderManager();
     private final static String TAG = ProviderManager.class.getSimpleName();
 
-    private IProvider provider = null;
+    private IProvider curr_provider = null;
     private ProviderProperties providerPropertiesConfig;
     private List<IProvider> providerList = new
             ArrayList<IProvider>();
@@ -49,17 +49,18 @@ public class ProviderManager implements IProviderManager {
     }
 
     /**
-     * Configure all available providers using
+     * Configure all available providers using curr_provider properties
      * {@link ProviderProperties providerProperties}
-     * @param providerProperties
+     * @param providerProperties target properties need for initialization of
+     *                          all providers
      */
+    @Override
     public void Configure (ProviderProperties providerProperties){
         providerPropertiesConfig = providerProperties;
 
         for (ProviderType providerType : ProviderType.values()) {
 
             if (providerType == ProviderType.UNDEFINED)
-                   // || providerType == ProviderEnum.ProviderType.MAIL)
                 continue;
 
 
@@ -79,10 +80,27 @@ public class ProviderManager implements IProviderManager {
     /**
      * Sign out current provider
      */
-    public void SignOut()
-    {
-        this.provider.SignOut();
+    @Override
+    public void SignOut() throws Exception {
+        if (this.curr_provider == null){
+
+            Context context = providerPropertiesConfig.getTargetActivity();
+            String message = context
+                    .getString(R.string. null_provider_error);
+            throw new Exception(message);
+        }
+
+
+        this.curr_provider.SignOut();
     }
+
+    /**
+     * Gets the matching {@link ProviderBase curr_provider } based on
+     * {@link ProviderType ProviderType}
+     * @param providerType the target curr_provider type
+     * @return the matching {@link ProviderBase curr_provider }
+     */
+    @Override
     public IProvider getProvider(ProviderType providerType)
     {
         for (IProvider provider : providerList) {
@@ -91,10 +109,11 @@ public class ProviderManager implements IProviderManager {
                     .getProviderType());
 
             if (found){
-                return provider;
+                this.curr_provider = provider;
             }
         }
-        return null;
+
+        return this.curr_provider;
     }
     /**
      * method for exposing the {@link Provider Provider}
@@ -106,7 +125,7 @@ public class ProviderManager implements IProviderManager {
      */
     @Override
     public IProvider getProvider() {
-        if (provider == null){
+        if (curr_provider == null){
             Context context = providerPropertiesConfig.getTargetActivity();
             String message = context
                     .getString(R.string.provider_manager_provider_exception);
@@ -114,16 +133,16 @@ public class ProviderManager implements IProviderManager {
             Log.e(TAG, message);
             throw new NullPointerException(message);
         }
-        return this.provider;
+        return this.curr_provider;
     }
 
     /**
      * sets the current provider
-     * @param provider a provider object referance
+     * @param provider a provider object reference
      */
     @Override
     public void setProvider(IProvider provider){
-        this.provider = provider;
+        this.curr_provider = provider;
     }
 
     /**
@@ -132,7 +151,7 @@ public class ProviderManager implements IProviderManager {
      */
     @Override
     public void setProvider(ProviderProperties providerProperties){
-        this.provider = new Provider(providerProperties);
+        this.curr_provider = new Provider(providerProperties);
     }
 
     /**
@@ -149,7 +168,7 @@ public class ProviderManager implements IProviderManager {
                 .providerType(providerType)
                 .build();
 
-        this.provider = new Provider(currentAuthProviderConfigurations);
+        this.curr_provider = new Provider(currentAuthProviderConfigurations);
     }
 
 }

@@ -9,7 +9,7 @@
     <string name="google_signin_options">gso</string>
     <string name="default_web_client_id">0x7f0e0050</string>
     <string name="activity_action_type">activity_action_type</string>
-
+    <string name="null_provider_error">provider was not initialized</string>
     <string name="sign_in_exception_message">sign in method not supported for
         this provider</string>
     <string name="send_email_not_implemented_provider_exception">send
