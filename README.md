@@ -3,9 +3,6 @@
   <br>
   <img src="https://github.com/barnoy1/authprovider/wiki/images/logo.png" 
   alt="Auth Provider" width="200">
-  <br>
-  Auth Provider
-  <br>
 </h1>
 
 <h4 align="center">A minimal Authentication Library built on 
