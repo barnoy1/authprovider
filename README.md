@@ -29,10 +29,11 @@ top of <a href="https://firebase.google.com" target="_blank">Firebase</a>.</h4>
 5. [Links](#links)
 
 ## prerequisite
-
-This document is for the latest Aimeos TYPO3 **17.10 release and later**.
-
-- Stable release: 18.4 (TYPO3 7/8 LTS)
+In order for the target application to work properly it must fully integrated with firebase authentication mail, facebook and goolge providers.  
+* First, the target application must be integrated with firebase SDK. See the following tutorial [Add Firebase to Your Android Project](https://firebase.google.com/docs/android/setup).
+* Since this library is based on *com.google.firebase:firebase-auth* dependency, the target application must add Firebase Authentication package. Please follow the guide [Add Firebase Authentication to your app](https://firebase.google.com/docs/auth/android/start/)
+*  In order to enable Authenticate Using Google Sign-In feature needed for Google provider follow the next guide [ Authenticate Using Google Sign-In](https://firebase.google.com/docs/auth/android/google-signin). This feature requires SHA1 key generation. See the following Youtube tutorial in order to obtain a key for the target application [How to get the SHA1 fingerprint certificate in android studio for debug mode](https://www.youtube.com/watch?v=aakXkUY6MYU)
+* In order to enable Authenticate Using Facebook Sign-In feature needed for Facebook provider the target application must be integrated  with facebook SDK. follow the next guide [Add Facebook Login to Your App or Website](https://developers.facebook.com/docs/facebook-login). This step requires Hash key generation. See the following Youtube tutorial in order to obtain a key for the target application [Facebook Android Generate Key Hash](https://stackoverflow.com/questions/5306009/facebook-android-generate-key-hash)
 
 ## Installation
 
