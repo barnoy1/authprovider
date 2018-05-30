@@ -1,0 +1,14 @@
+com.firebase.authwrapper.manager
+com.firebase.authwrapper.providers.common.base
+com.firebase.authwrapper.providers.common.callbacks
+com.firebase.authwrapper.providers.common.enums
+com.firebase.authwrapper.providers.common.factory
+com.firebase.authwrapper.providers.common.properties
+com.firebase.authwrapper.providers.delegate
+com.firebase.authwrapper.providers.types
+com.firebase.authwrapper.resultactivity.callback
+com.firebase.authwrapper.resultactivity.common
+com.firebase.authwrapper.resultactivity.enums
+com.firebase.authwrapper.resultactivity.types.facebook
+com.firebase.authwrapper.resultactivity.types.google
+com.firebase.authwrapper.utils.sharedprefrences
