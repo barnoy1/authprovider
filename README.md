@@ -57,8 +57,7 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-## Acknowledgments
+## Docomentation
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+For more detailed information regarding exposed API see [authprovider JavaDocs](http://htmlpreview.github.io/?https://github.com/barnoy1/authprovider/blob/master/docs/index.html)
+
