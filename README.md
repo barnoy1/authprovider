@@ -16,27 +16,27 @@ top of <a href="https://firebase.google.com" target="_blank">Firebase</a>.</h4>
 ## Table of content
 
 1. [Introduction](#intro)
-2. [Prerequisite](#prerequisite)
-3. [Setup](#setup)
-4. [Usage](#usage)
-5. [Contributing](#contrib)
-6. [Versioning](#versions)
-7. [Authors](#authors)
-8. [License](#lic)
-9. [Documentation](#docs)
+2. [Prerequisite](#pre)
+3. [Usage](#usge)
+4. [Versioning](#ver)
+5. [Authors](#authors)
+6. [Contribution](#contrib)
+7. [License](#lic)
+8. [Documentation](#docs)
 
 
 ## Introduction<a name="intro"></a>
-When using the different types of firebase authentication provides, it is noticible that each provider action (signin or signout) must be handled **per provider**. meaning that if the user wishes to use **different providers for the same functionaliy he must implement his logic in multiple places inside each providers' callbacks**. This library allows users to bind common authentication providers (facebook google and email providers) to one manager object for clearer readness, monitoring and prevents duplicate code segments.
+When using the different types of firebase authentication provides, it is noticible that each provider action (signin or signout) must be handled **per provider**. meaning that if the user wishes to use **different providers for the same functionaliy he must implement his logic in multiple places inside each providers' callbacks**. This library binds common authentication providers (facebook google and email providers) to single entity thus allowing better readness and code managment by preventing duplicate logic sections in the target application.
 
-## Prerequisite
+
+## Prerequisite<a name="pre"></a>
 In order for the target application to work properly it must fully integrated with firebase authentication mail, facebook and goolge providers.  
 * First, the target application must be integrated with firebase SDK. See the following tutorial [Add Firebase to Your Android Project](https://firebase.google.com/docs/android/setup).
 * Since this library is based on *com.google.firebase:firebase-auth* dependency, the target application must add Firebase Authentication package. Please follow the guide [Add Firebase Authentication to your app](https://firebase.google.com/docs/auth/android/start/)
 *  In order to enable Authenticate Using Google Sign-In feature needed for Google provider follow the next guide [ Authenticate Using Google Sign-In](https://firebase.google.com/docs/auth/android/google-signin). This feature requires SHA1 key generation. See the following Youtube tutorial in order to obtain a key for the target application [How to get the SHA1 fingerprint certificate in android studio for debug mode](https://www.youtube.com/watch?v=aakXkUY6MYU) 
 * In order to enable Authenticate Using Facebook Sign-In feature needed for Facebook provider the target application must be integrated  with facebook SDK. follow the next guide [Add Facebook Login to Your App or Website](https://developers.facebook.com/docs/facebook-login). This step requires Hash key generation. See the following Youtube tutorial in order to obtain a key for the target application [Facebook Android Generate Key Hash](https://stackoverflow.com/questions/5306009/facebook-android-generate-key-hash)
 
-## Setup
+## Setup<a name="setup"></a>
 * Put **authprovider-release.aar** into the libs folder
 * Insert in the target application build.grade file in the dependencies cluster the following:
   
@@ -50,7 +50,7 @@ In order for the target application to work properly it must fully integrated wi
   implementation files('libs/authprovider-release.jar')
   ```
 
-## Usage
+## Usage<a name="usage"></a>
 * implement AuthListener callbacks in the target application:
 
 ```
@@ -124,24 +124,29 @@ public class SignInActivity extends AppCompatActivity implements
   });
 ```
 
-## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
+## Versioning<a name="ver"></a>
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/barnoy1/authprovider/releases). 
 
-## Authors
+
+## Authors<a name="authors"></a>
 
 * **Ron Bar-Noy** - *Initial work* 
 
+
+## Contributing<a name="contrib"></a>
+
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
-## License
+
+## License<a name="lic"></a>
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
-## Docomentation
+
+## Docomentation<a name="docs"></a>
 
 For more detailed information regarding exposed API see [authprovider JavaDocs](http://htmlpreview.github.io/?https://github.com/barnoy1/authprovider/blob/master/docs/index.html)
