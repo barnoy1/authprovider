@@ -15,16 +15,17 @@ top of <a href="https://firebase.google.com" target="_blank">Firebase</a>.</h4>
 
 ## Table of content
 
-1. [Prerequisite](#prerequisite)
-2. [Setup](#setup)
-3. [Page setup](#page-setup)
-    1. [Upload the page tree file](#upload-the-page-tree-file)
-    2. [Go to the import view](#go-to-the-import-view)
-    3. [Import the uploaded page tree file](#import-the-uploaded-page-tree-file)
+1. [Introduction](#intro)
+2. [Prerequisite](#prerequisite)
+3. [Setup](#setup)
 4. [License](#license)
 5. [Links](#links)
 
-## prerequisite
+## Introduction
+When using firebase authentication providers it 
+
+
+## Prerequisite
 In order for the target application to work properly it must fully integrated with firebase authentication mail, facebook and goolge providers.  
 * First, the target application must be integrated with firebase SDK. See the following tutorial [Add Firebase to Your Android Project](https://firebase.google.com/docs/android/setup).
 * Since this library is based on *com.google.firebase:firebase-auth* dependency, the target application must add Firebase Authentication package. Please follow the guide [Add Firebase Authentication to your app](https://firebase.google.com/docs/auth/android/start/)
@@ -84,6 +85,41 @@ public class SignInActivity extends AppCompatActivity implements
     }
     
 ```
+
+* Now you can use the provider manager object to invoked different provider types that registered to the same target activity callbacks such as facebook, google and email providers. Here is an example of sign in using different firebase providers (facebook and google) which are wrapped in provider manager. The user can select the wanted provider and the SignIn process will be registered in AuthenticationListener callbacks regardless of the provider type. 
+
+```
+ findViewById(R.id.btnSignWithFacebook).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                IProvider provider = mProviderManager
+                        .getProvider(ProviderEnum.ProviderType.FACEBOOK);
+
+                try {
+                    provider.SignIn();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+  findViewById(R.id.btnSignWithGoogle).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+
+          IProvider provider = mProviderManager
+                  .getProvider(ProviderEnum.ProviderType.GOOGLE);
+          try {
+              provider.SignIn();
+          } catch (InterruptedException e) {
+              e.printStackTrace();
+          }
+      }
+  });
+```
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
