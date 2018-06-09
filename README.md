@@ -18,12 +18,16 @@ top of <a href="https://firebase.google.com" target="_blank">Firebase</a>.</h4>
 1. [Introduction](#intro)
 2. [Prerequisite](#prerequisite)
 3. [Setup](#setup)
-4. [License](#license)
-5. [Links](#links)
+4. [Usage](#usage)
+5. [Contributing](#contrib)
+6. [Versioning](#versions)
+7. [Authors](#authors)
+8. [License](#lic)
+9. [Documentation](#docs)
 
-## Introduction
-When using firebase authentication providers it 
 
+## Introduction<a name="intro"></a>
+When using the different types of firebase authentication provides, it is noticible that each provider action (signin or signout) must be handled **per provider**. meaning that if the user wishes to use **different providers for the same functionaliy he must implement his logic in multiple places inside each providers' callbacks**. This library allows users to bind common authentication providers (facebook google and email providers) to one manager object for clearer readness, monitoring and prevents duplicate code segments.
 
 ## Prerequisite
 In order for the target application to work properly it must fully integrated with firebase authentication mail, facebook and goolge providers.  
@@ -141,4 +145,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Docomentation
 
 For more detailed information regarding exposed API see [authprovider JavaDocs](http://htmlpreview.github.io/?https://github.com/barnoy1/authprovider/blob/master/docs/index.html)
-
