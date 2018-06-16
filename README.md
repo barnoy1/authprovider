@@ -26,7 +26,7 @@ top of <a href="https://firebase.google.com" target="_blank">Firebase</a>.</h4>
 
 
 ## Introduction<a name="intro"></a>
-When using the different types of firebase authentication provides, it is noticible that each provider action (signin or signout) must be handled **per provider**. meaning that if the user wishes to use **different providers for the same functionaliy he must implement his logic in multiple places inside each providers' callbacks**. This library binds common authentication providers (facebook google and email providers) to single entity thus allowing better readness and code managment by preventing duplicate logic sections in the target application.
+When using the different types of firebase authentication provides, it is noticible that each provider action (signin or signout) must be handled per provider. meaning that if the user wishes to use different providers for the same functionaliy he must implement his logic in multiple places inside each providers' callbacks. This library binds common authentication providers (facebook google and email providers) to single entity thus allowing better readness and code managment by preventing duplicate logic sections in the target application.
 
 
 ## Prerequisite<a name="pre"></a>
