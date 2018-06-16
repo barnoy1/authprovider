@@ -179,4 +179,14 @@ public class ProviderManager implements IProviderManager {
         this.curr_provider = new Provider(currentAuthProviderConfigurations);
     }
 
+    /**
+     * @return the provider manager configuration state. If the
+     * configuration procedure was successfully executed - this method will
+     * return True. Otherwise, False.
+     */
+    @Override
+    public boolean IsConfigured() {
+        return !(providerList.isEmpty());
+    }
+
 }

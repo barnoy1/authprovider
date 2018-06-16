@@ -66,4 +66,13 @@ public interface IProviderManager {
       *                     {@link ProviderType providerType enum value}
       */
      void setProvider(ProviderType providerType);
+
+     /**
+      *
+      * @return the provider manager configuration state. If the
+      * configuration procedure was successfully executed - this method will
+      * return True. Otherwise, False.
+      */
+     boolean IsConfigured();
+
 }
