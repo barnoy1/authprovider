@@ -45,13 +45,22 @@ public interface AuthenticationListener {
         void OnNewUserCreated(FirebaseUser user);
 
         /**
-         * this method is inovked when the
+         * this method is invoked when the
          * {@link com.firebase.authwrapper.providers.types.MailProvider
          * MailProvider} successfully been able to send a verfication mail
+         *
          * to the target {@link FirebaseUser user}
          * @see FirebaseUser
          */
         void OnVerficationMailSent();
+
+        /**
+         * this callback is triggered when {@link FirebaseUser user} is trying to create new
+         * account with credentials that already exists in firebase
+         * authentication database.
+         * @see FirebaseUser
+         */
+        void OnAccountExists();
 
     }
 }

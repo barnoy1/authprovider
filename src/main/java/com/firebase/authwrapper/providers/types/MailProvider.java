@@ -63,7 +63,8 @@ public class MailProvider extends ProviderBase implements IProvider {
 
                                 if (task.isSuccessful()) {
                                     callback.OnVerficationMailSent();
-                                } else {
+                                }
+                                else{
                                     HandleAuthProviderError(task.getException());
                                 }
 
@@ -99,10 +100,20 @@ public class MailProvider extends ProviderBase implements IProvider {
                         new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                String message = task.getException()
+                                        .getMessage();
+
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     callback.OnNewUserCreated(user);
-                                } else {
+                                }
+                                else if (message.equals(getContext()
+                                        .getString(R.string
+                                                .email_account_already_exists))) {
+                                    callback.OnAccountExists();
+                                }
+                                else {
                                     HandleAuthProviderError
                                             (task.getException());
                                 }
