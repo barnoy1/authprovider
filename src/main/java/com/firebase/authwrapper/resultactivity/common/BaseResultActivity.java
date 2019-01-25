@@ -48,6 +48,7 @@ public class BaseResultActivity extends AppCompatActivity
     protected Context context;
     protected FirebaseAuth mAuth;
     protected static com.firebase.authwrapper.resultactivity.common.ActivityInvoker activityInvoker;
+    protected static final int MILLISEC_SLEEP_BEFORE_FINISH = 1500;
 
     protected static void setActivityInvoker
             (com.firebase.authwrapper.resultactivity.common.ActivityInvoker currentActivityInvoker){
@@ -84,6 +85,12 @@ public class BaseResultActivity extends AppCompatActivity
 
     protected void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
+
+            try {
+                Thread.sleep(MILLISEC_SLEEP_BEFORE_FINISH);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             mProgressDialog.dismiss();
         }
     }

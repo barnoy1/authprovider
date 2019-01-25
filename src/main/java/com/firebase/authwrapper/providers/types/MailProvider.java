@@ -110,7 +110,7 @@ public class MailProvider extends ProviderBase implements IProvider {
                                 }
                                 else if (message.equals(getContext()
                                         .getString(R.string
-                                                .email_account_already_exists))) {
+                                                .email_account_already_exists_exception))) {
                                     callback.OnAccountExists();
                                 }
                                 else {

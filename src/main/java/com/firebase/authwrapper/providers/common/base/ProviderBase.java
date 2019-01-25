@@ -89,7 +89,13 @@ public abstract class ProviderBase {
      *                     to the providers flow
      * @see AuthenticationListener
      */
-    public void Register(AuthenticationListener authenticationListener) {
+    public void Register(AuthenticationListener authenticationListener)
+            throws IllegalArgumentException {
+        if (authenticationListener == null)
+        {
+            throw new IllegalArgumentException(context.getString(R.string
+                    .null_authentication_listener_exception));
+        }
         authCallbacklist.add(authenticationListener);
     }
 
@@ -146,7 +152,7 @@ public abstract class ProviderBase {
             throws  IllegalArgumentException {
 
         throw new IllegalArgumentException(context.getString(R.string
-                .sign_in_exception_message));
+                .base_provider_signin_not_implemented_exception));
     }
 
 
@@ -173,7 +179,7 @@ public abstract class ProviderBase {
     public void SendEmailVerification(FirebaseUser user)
             throws IllegalArgumentException {
         String message =  context.getString(R.string
-                .send_email_not_implemented_provider_exception);
+                .base_provider_send_email_not_implemented_exception);
 
         throw new IllegalArgumentException(message);
     }
@@ -239,7 +245,7 @@ public abstract class ProviderBase {
     public void SignIn() throws InterruptedException {
 
         throw new IllegalArgumentException
-                (context.getString(R.string.sign_in_exception_message));
+                (context.getString(R.string.base_provider_signin_not_implemented_exception));
     }
 
 

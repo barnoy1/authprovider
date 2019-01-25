@@ -42,7 +42,7 @@ public class NullProvider extends ProviderBase implements IProvider {
     @Override
     public void SignIn() throws InterruptedException {
         String message =  context.getString(R.string
-                .sign_in_null_provider_exception);
+                .null_provider_sign_in_exception);
 
         throw new InterruptedException(message);
     }
@@ -54,7 +54,7 @@ public class NullProvider extends ProviderBase implements IProvider {
     @Override
     public void SignIn(String email, String Password, AuthenticationListener.Email emailCallback) throws IllegalArgumentException {
         String message =  context.getString(R.string
-                .sign_in_null_provider_exception);
+                .null_provider_sign_in_exception);
 
         throw new IllegalArgumentException(message);
     }
@@ -66,7 +66,7 @@ public class NullProvider extends ProviderBase implements IProvider {
     @Override
     public void SendEmailVerification(FirebaseUser user) throws IllegalArgumentException {
         String message =  context.getString(R.string
-                .send_email_null_provider_exception);
+                .null_provider_send_email_exception);
 
         throw new IllegalArgumentException(message);
     }
@@ -78,7 +78,7 @@ public class NullProvider extends ProviderBase implements IProvider {
     @Override
     public void OnActivityResultReceived(int requestCode, int resultCode, Intent data) {
         String message =  context.getString(R.string
-                .on_activity_result_received);
+                .null_provider_on_activity_result_received_exception);
 
         throw new IllegalArgumentException(message);
     }

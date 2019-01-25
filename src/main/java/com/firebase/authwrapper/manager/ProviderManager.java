@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.firebase.authwrapper.providers.common.enums.ProviderType;
-import com.firebase.authwrapper.providers.types.NullProvider;
 import com.game.authprovider.R;
 import com.firebase.authwrapper.providers.delegate.Provider;
 import com.firebase.authwrapper.providers.common.properties.ProviderProperties;
@@ -94,7 +93,7 @@ public class ProviderManager implements IProviderManager {
 
             Context context = providerPropertiesConfig.getTargetActivity();
             String message = context
-                    .getString(R.string. null_provider_error);
+                    .getString(R.string.null_provider_exception);
             throw new Exception(message);
         }
 
@@ -136,7 +135,7 @@ public class ProviderManager implements IProviderManager {
         if (curr_provider == null){
             Context context = providerPropertiesConfig.getTargetActivity();
             String message = context
-                    .getString(R.string.provider_manager_provider_exception);
+                    .getString(R.string.provider_manager_curr_provider_not_initialized_exception);
 
             Log.e(TAG, message);
             throw new NullPointerException(message);
