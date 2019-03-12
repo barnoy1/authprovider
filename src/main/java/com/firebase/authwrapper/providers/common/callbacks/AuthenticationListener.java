@@ -60,7 +60,18 @@ public interface AuthenticationListener {
          * authentication database.
          * @see FirebaseUser
          */
-        void OnAccountExists();
+        void OnAccountAlreadyExistsError();
+
+
+        /**
+         * get the existing {@link FirebaseUser FirebaseUser} account of
+         * recurring user when
+         * {@link com.firebase.authwrapper.providers.types.MailProvider
+         * MailProvider} provider is invoked.
+         * @param user current FirebaseUser user instance
+         * @see FirebaseUser
+         */
+        void OnEmailSignIn(FirebaseUser user);
 
     }
 }

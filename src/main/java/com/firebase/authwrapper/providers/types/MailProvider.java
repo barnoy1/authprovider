@@ -32,6 +32,8 @@ public class MailProvider extends ProviderBase implements IProvider {
 
     private final String TAG = MailProvider.class.getSimpleName();
     private AuthenticationListener.Email emailCallback;
+    private String emailAddr;
+    private String password;
 
     /**
      * ctor. Concrete constructor of mail provider
@@ -95,6 +97,43 @@ public class MailProvider extends ProviderBase implements IProvider {
 
         this.emailCallback = emailCallback;
         final AuthenticationListener.Email callback = this.emailCallback;
+
+
+        this.emailAddr = email;
+        final String emailAddr = this.emailAddr;
+
+        this.password = password;
+        final String userPassword = this.password;
+
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(providerProperties.getTargetActivity(),
+                        new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                // existing use
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    callback.OnEmailSignIn(user);
+                                }
+                                else {
+                                    createUserWithEmailAndPasswordInternal(emailAddr,
+                                            userPassword, callback);
+                                }
+                            }
+                        });
+
+
+
+    }
+
+    private void createUserWithEmailAndPasswordInternal(String email, String password, AuthenticationListener
+            .Email emailCallback) throws IllegalArgumentException {
+
+        this.emailCallback = emailCallback;
+        final AuthenticationListener.Email callback = this.emailCallback;
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(providerProperties.getTargetActivity(),
                         new OnCompleteListener<AuthResult>() {
@@ -104,13 +143,14 @@ public class MailProvider extends ProviderBase implements IProvider {
 
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    callback.OnNewUserCreated(user);
+
+                                    if (!user.isEmailVerified())
+                                        callback.OnNewUserCreated(user);
                                     return;
                                 }
 
                                 try {
-                                    if (task.getException() != null)
-                                    {
+                                    if (task.getException() != null) {
                                         String message = task.getException()
                                                 .getMessage();
 
@@ -118,24 +158,20 @@ public class MailProvider extends ProviderBase implements IProvider {
                                         if (message.equals(getContext()
                                                 .getString(R.string
                                                         .email_account_already_exists_exception))) {
-                                            callback.OnAccountExists();
-                                        }
-                                        else
-                                        {
+                                            callback.OnAccountAlreadyExistsError();
+                                        } else {
                                             HandleAuthProviderError
                                                     (task.getException());
                                         }
                                     }
-                                }
-                                catch (Exception ex)
-                                {
+                                } catch (Exception ex) {
                                     HandleAuthProviderError
                                             (ex);
                                 }
                             }
                         });
-    }
 
+    }
     /**
      * Implementation of handling the activity result which retrieved from the
      * the inner result activity. Not relevant for this provider
