@@ -101,21 +101,36 @@ public class MailProvider extends ProviderBase implements IProvider {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                String message = task.getException()
-                                        .getMessage();
 
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     callback.OnNewUserCreated(user);
+                                    return;
                                 }
-                                else if (message.equals(getContext()
-                                        .getString(R.string
-                                                .email_account_already_exists_exception))) {
-                                    callback.OnAccountExists();
+
+                                try {
+                                    if (task.getException() != null)
+                                    {
+                                        String message = task.getException()
+                                                .getMessage();
+
+
+                                        if (message.equals(getContext()
+                                                .getString(R.string
+                                                        .email_account_already_exists_exception))) {
+                                            callback.OnAccountExists();
+                                        }
+                                        else
+                                        {
+                                            HandleAuthProviderError
+                                                    (task.getException());
+                                        }
+                                    }
                                 }
-                                else {
+                                catch (Exception ex)
+                                {
                                     HandleAuthProviderError
-                                            (task.getException());
+                                            (ex);
                                 }
                             }
                         });
