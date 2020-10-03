@@ -53,7 +53,7 @@ In order for the target application to work properly it must fully integrated wi
 ## Usage<a name="usage"></a>
 * implement AuthListener callbacks in the target application:
 
-```
+```java
 public class SignInActivity extends AppCompatActivity implements
         View.OnClickListener, AuthenticationListener  {
         
@@ -74,7 +74,7 @@ public class SignInActivity extends AppCompatActivity implements
 
 * In OnCreate method insert the configure section of the provider manager singleton using ProviderProperties object. The ProviderProperties contains the target activity.
 
-```
+```java
  @Override
     protected void onCreate(Bundle savedInstanceState) {
      
@@ -92,7 +92,7 @@ public class SignInActivity extends AppCompatActivity implements
 
 * Now you can use the provider manager object to invoked different provider types that registered to the same target activity callbacks such as facebook, google and email providers. Here is an example of sign in using different firebase providers (facebook and google) which are wrapped in provider manager. The user can select the wanted provider and the SignIn process will be registered in AuthenticationListener callbacks regardless of the provider type. 
 
-```
+```java
  findViewById(R.id.btnSignWithFacebook).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
